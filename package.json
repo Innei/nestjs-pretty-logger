@@ -1,5 +1,5 @@
 {
-  "name": "my-awesome-lib",
+  "name": "nestjs-pretty-logger",
   "private": true,
   "version": "0.0.0",
   "description": "TODO",
@@ -7,10 +7,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Innei/rollup-typescript-lib",
-    "directory": "Innei/rollup-typescript-lib"
+    "url": "https://github.com/Innei/nestjs-pretty-logger",
+    "directory": "Innei/nestjs-pretty-logger"
   },
-  "type": "module",
   "main": "./src/index.ts",
   "exports": {
     ".": {
@@ -70,10 +69,8 @@
     "build": "tsc --build . tsconfig.build.json && tsc --build tsconfig.cjs.json",
     "postbuild": "tsc-alias -p tsconfig.build.json && tsc-alias -p tsconfig.cjs.json && npm run types",
     "types": "rm -rf types && tsc --build tsconfig.types.json && tsc-alias -p tsconfig.types.json && npx dts-bundle-generator -o dist/index.d.ts ./src/index.ts --no-check --silent --project ./tsconfig.types.json",
-    "package": "NODE_ENV=production npm run build && rollup -c",
     "prepackage": "rm -rf dist",
     "test": "vitest",
-    "prepare": "husky install && cd example && pnpm i",
     "release": "bump"
   },
   "optionalDependencies": {
@@ -83,21 +80,14 @@
     "@innei/bump-version": "1.5.10",
     "@innei/eslint-config-react-ts": "0.11.1",
     "@innei/eslint-config-ts": "0.11.1",
-    "@innei/prettier": "0.11.1",
+    "@innei/prettier": "0.12.0",
     "@nestjs/common": "^10.2.10",
-    "@rollup/plugin-commonjs": "25.0.7",
-    "@rollup/plugin-node-resolve": "15.2.3",
-    "@rollup/plugin-typescript": "11.1.5",
     "@types/node": "20.8.10",
     "dts-bundle-generator": "^8.1.2",
     "esbuild": "0.19.5",
     "husky": "8.0.3",
     "lint-staged": "15.0.2",
     "prettier": "3.0.3",
-    "rollup": "4.2.0",
-    "rollup-plugin-esbuild": "6.1.0",
-    "rollup-plugin-peer-deps-external": "2.2.4",
-    "rollup-plugin-postcss": "4.0.2",
     "tsc-alias": "1.8.8",
     "tslib": "2.6.2",
     "typescript": "5.2.2",
@@ -106,7 +96,9 @@
     "vitest": "0.34.6"
   },
   "dependencies": {
-    "consola": "^3.2.3",
-    "picocolors": "^1.0.0"
+    "picocolors": "^1.0.0",
+    "defu": "^6.1.3",
+    "std-env": "^3.5.0",
+    "string-width": "npm:@innei/string-width@7.0.0-fork.1"
   }
 }

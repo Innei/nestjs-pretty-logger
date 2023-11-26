@@ -20,6 +20,7 @@
     "example/*",
     "vitest.config.ts",
     "vite.config.ts",
+    "demo/*",
     "src/__tests__/*"
   ]
 }

@@ -2,13 +2,16 @@
   "compilerOptions": {
     "declaration": true,
     "baseUrl": "./src",
-    "rootDir": "./src",
     "outDir": "/tmp",
     "jsx": "react",
     "target": "ES2020",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ES2022",
+    "moduleResolution": "Node",
     "experimentalDecorators": true,
     "strict": true,
     "resolveJsonModule": true,
@@ -16,9 +19,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
-    "types": ["vite/client", "vitest/globals"],
+    "types": [
+      "vite/client",
+      "vitest/globals"
+    ],
     "paths": {
-      "~/*": ["*"]
+      "~/*": [
+        "*"
+      ]
     }
   },
   "exclude": [
@@ -28,7 +36,7 @@
     "lib/*",
     "example/*",
     "vitest.config.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "demo/*"
   ]
 }
-

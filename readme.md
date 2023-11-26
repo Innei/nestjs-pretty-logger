@@ -1,4 +1,4 @@
-# Nest Pretty Logger
+# NestJS Pretty Logger
 
 ## License
 

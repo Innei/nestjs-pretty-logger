@@ -1,10 +1,11 @@
 import cluster from 'cluster'
+import EventEmitter from 'events'
 import picocolors from 'picocolors'
 import type { ConsoleLoggerOptions } from '@nestjs/common'
 
 import { ConsoleLogger } from '@nestjs/common'
 
-import { consola } from './consola.util.js'
+import { consola } from './consola.instance.js'
 
 type LoggerType =
   | 'info'
@@ -15,10 +16,8 @@ type LoggerType =
   | 'verbose'
   | 'fatal'
 
-class LoggerSubscriber {}
-
 export class Logger extends ConsoleLogger {
-  public static subscriber = new LoggerSubscriber()
+  public static subscriber = new EventEmitter()
 
   constructor(context: string, options: ConsoleLoggerOptions) {
     super(context, options)
