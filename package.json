@@ -1,6 +1,6 @@
 {
   "name": "nestjs-pretty-logger",
-  "version": "0.1.0",
+  "version": "0.1.0-5",
   "description": "Elevate NestJS logging with stylish, file-redirected, and real-time capable logging based on consola. Compact, powerful, and easy to integrate",
   "author": "Innei",
   "license": "MIT",
@@ -9,27 +9,13 @@
     "url": "https://github.com/Innei/nestjs-pretty-logger",
     "directory": "Innei/nestjs-pretty-logger"
   },
-  "main": "./src/index.ts",
-  "exports": {
-    ".": {
-      "import": "./src/index.ts"
-    },
-    "./*": {
-      "import": "./src/*"
-    }
-  },
-  "publishConfig": {
-    "main": "lib/index.js",
-    "files": [
-      "dist",
-      "lib",
-      "esm",
-      "readme.md",
-      "tsconfig.json",
-      "types",
-      "src"
-    ]
-  },
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "esm",
+    "readme.md",
+    "types"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
