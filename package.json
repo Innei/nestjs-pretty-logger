@@ -1,8 +1,7 @@
 {
   "name": "nestjs-pretty-logger",
-  "private": true,
-  "version": "0.0.0",
-  "description": "TODO",
+  "version": "0.1.0",
+  "description": "Elevate NestJS logging with stylish, file-redirected, and real-time capable logging based on consola. Compact, powerful, and easy to integrate",
   "author": "Innei",
   "license": "MIT",
   "repository": {
@@ -20,22 +19,7 @@
     }
   },
   "publishConfig": {
-    "main": "dist/index.cjs",
-    "module": "dist/index.js",
-    "types": "types/index.d.ts",
-    "exports": {
-      ".": {
-        "type": "./dist/index.d.ts",
-        "import": "./dist/index.js",
-        "require": "./dist/index.cjs"
-      },
-      "./src": {
-        "import": "./src"
-      },
-      "./src/*": {
-        "import": "./src/*"
-      }
-    },
+    "main": "lib/index.js",
     "files": [
       "dist",
       "lib",
@@ -68,7 +52,7 @@
     "prebuild": "rm -rf lib && rm -rf esm",
     "build": "tsc --build . tsconfig.build.json && tsc --build tsconfig.cjs.json",
     "postbuild": "tsc-alias -p tsconfig.build.json && tsc-alias -p tsconfig.cjs.json && npm run types",
-    "types": "rm -rf types && tsc --build tsconfig.types.json && tsc-alias -p tsconfig.types.json && npx dts-bundle-generator -o dist/index.d.ts ./src/index.ts --no-check --silent --project ./tsconfig.types.json",
+    "types": "rm -rf types && tsc --build tsconfig.types.json && tsc-alias -p tsconfig.types.json",
     "prepackage": "rm -rf dist",
     "test": "vitest",
     "release": "bump",
@@ -84,7 +68,6 @@
     "@innei/prettier": "0.12.0",
     "@nestjs/common": "^10.2.10",
     "@types/node": "20.8.10",
-    "dts-bundle-generator": "^8.1.2",
     "esbuild": "0.19.5",
     "husky": "8.0.3",
     "lint-staged": "15.0.2",
