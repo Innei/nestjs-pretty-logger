@@ -1,9 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from 'nestjs-pretty-logger';
+import { Logger, createLogger } from 'nestjs-pretty-logger';
+import path from 'path';
+
+const customLogger = createLogger({
+  writeToFile: {
+    loggerDir: path.resolve(__dirname, './logs'),
+  },
+});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  Logger.setLoggerInstance(customLogger);
   app.useLogger(app.get(Logger));
   await app.listen(3000);
 }

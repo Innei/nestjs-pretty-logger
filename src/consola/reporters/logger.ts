@@ -7,9 +7,9 @@ import { getShortTime } from '../../tool.util'
 import { FancyReporter } from './fancy'
 
 export class LoggerReporter extends FancyReporter {
-  isInVirtualTerminal = typeof process.stdout.columns === 'undefined' // HACK: if got `undefined` that means in PM2 pty
   private latestLogTime: number = Date.now()
   public formatDate(date: Date, opts: FormatOptions): string {
+    const isInVirtualTerminal = typeof opts.columns === 'undefined'
     if (isDevelopment) {
       const now = Date.now()
       const delta = now - this.latestLogTime
@@ -17,11 +17,12 @@ export class LoggerReporter extends FancyReporter {
       return `+${delta | 0}ms ${super.formatDate(date, opts)}`
     }
 
-    return this.isInVirtualTerminal ? '' : super.formatDate(date, opts)
+    return isInVirtualTerminal ? '' : super.formatDate(date, opts)
   }
 
   public formatLogObj(logObj: LogObject, opts: FormatOptions): string {
-    return this.isInVirtualTerminal
+    const isInVirtualTerminal = typeof opts.columns === 'undefined'
+    return isInVirtualTerminal
       ? `${picocolors.gray(getShortTime(new Date()))} ${super
           .formatLogObj(logObj, opts)
           .replace(/^\n/, '')}`.trimEnd()

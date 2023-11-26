@@ -1,3 +1,5 @@
+import path from 'path'
+
 export const getShortTime = (date: Date) => {
   return Intl.DateTimeFormat('en-US', {
     timeStyle: 'medium',
@@ -22,3 +24,6 @@ export const getShortDateTime = (date: Date) => {
     .format(date)
     .replace(/\//g, '-')
 }
+
+export const getLogFilePath = (logDir: string, formatString: string) =>
+  path.resolve(logDir, formatString.replace(/%d/g, getShortDate(new Date())))

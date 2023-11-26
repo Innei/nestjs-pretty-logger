@@ -22,12 +22,7 @@
     "types": [
       "vite/client",
       "vitest/globals"
-    ],
-    "paths": {
-      "~/*": [
-        "*"
-      ]
-    }
+    ]
   },
   "exclude": [
     "esm/*",

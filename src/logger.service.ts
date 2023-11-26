@@ -1,11 +1,11 @@
 import cluster from 'cluster'
-import EventEmitter from 'events'
 import picocolors from 'picocolors'
 import type { ConsoleLoggerOptions } from '@nestjs/common'
+import type { WrappedConsola } from './consola'
 
 import { ConsoleLogger } from '@nestjs/common'
 
-import { consola } from './consola.instance.js'
+import { createLoggerConsola } from './consola.instance'
 
 type LoggerType =
   | 'info'
@@ -17,7 +17,11 @@ type LoggerType =
   | 'fatal'
 
 export class Logger extends ConsoleLogger {
-  public static subscriber = new EventEmitter()
+  private static loggerInstance = createLoggerConsola()
+
+  static setLoggerInstance(logger: WrappedConsola) {
+    this.loggerInstance = logger
+  }
 
   constructor(context: string, options: ConsoleLoggerOptions) {
     super(context, options)
@@ -91,7 +95,7 @@ export class Logger extends ConsoleLogger {
     context?: string,
     ...argv: any[]
   ) {
-    const print = consola[level]
+    const print = Logger.loggerInstance[level]
     const formatMessage = this.formatMessage(message, level)
     const diff = this._updateAndGetTimestampDiff()
 

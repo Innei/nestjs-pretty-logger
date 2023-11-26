@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "../lib"
+  ],
+  "ext": "js",
+  "exec": "nest start --watch"
+}

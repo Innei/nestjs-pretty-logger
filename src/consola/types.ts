@@ -1,3 +1,4 @@
+import type { ConsolaInstance } from './consola'
 import type { LogLevel, LogType } from './constants'
 
 export interface ConsolaOptions {
@@ -50,4 +51,8 @@ export interface ConsolaReporter {
       options: ConsolaOptions
     },
   ) => void
+}
+
+export interface WrappedConsola extends ConsolaInstance {
+  onData: (handler: (data: string) => any) => WrappedConsola
 }
