@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# [0.2.0](https://github.com/Innei/nestjs-pretty-logger/compare/v0.1.1...v0.2.0) (2023-11-27)
+
+
+### Features
+
+* separate stdout and stderr event ([c2ef4c7](https://github.com/Innei/nestjs-pretty-logger/commit/c2ef4c7d3663f8d8ea7c346f1e3a822235319a76))
+
+
+
 ## [0.1.1](https://github.com/Innei/nestjs-pretty-logger/compare/1a4626ae9486088040970d57b72c5d15bd9660ed...v0.1.1) (2023-11-26)
 
 
