@@ -1,15 +1,14 @@
-
 # NestJS Pretty Logger
 
 ![1126201123](https://cdn.jsdelivr.net/gh/Innei/fancy-2023@main/2023/1126201123.png)
 
 ## Introduction
 
-"NestJS Pretty Logger" is a versatile and visually appealing global Logger module for NestJS applications. This module extends the functionality of the default NestJS logger by utilizing the `consola` library for enhanced aesthetics and includes features like file redirection and real-time logging capabilities.
+"NestJS Pretty Logger" is a versatile and visually appealing global Logger module for NestJS applications. This module extends the functionality of the default NestJS logger by utilizing the [consola](https://github.com/unjs/consola) library for enhanced aesthetics and includes features like file redirection and real-time logging capabilities.
 
 ## Features
 
-- **Aesthetic and Functional Logging**: Integrates `consola` for an enhanced logging experience.
+- **Aesthetic and Functional Logging**: Integrates [consola](https://github.com/unjs/consola) for an enhanced logging experience.
 - **Log File Redirection**: Ability to redirect `stdout` to files, allowing for organized log management.
 - **App-Wide Logging Coverage**: Capable of covering the entire application's console and `stdout.write` functionalities.
 - **Real-Time Logging Support**: Provides the `onData()` hook for real-time logging implementations, such as custom log recorders or WebSocket real-time log streaming.
@@ -30,25 +29,29 @@ In your `main.ts`:
 
 ```typescript
 // main.ts
-import { Logger } from 'nestjs-pretty-logger';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { Logger } from 'nestjs-pretty-logger'
+
+import { NestFactory } from '@nestjs/core'
+
+import { AppModule } from './app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useLogger(app.get(Logger));
-  await app.listen(3000);
+  const app = await NestFactory.create(AppModule)
+  app.useLogger(app.get(Logger))
+  await app.listen(3000)
 }
-bootstrap();
+bootstrap()
 ```
 
 In your `app.module.ts`:
 
 ```typescript
 // app.module.ts
-import { Module } from '@nestjs/common';
-import { LoggerModule } from 'nestjs-pretty-logger';
-import { AppController, AppService } from './app.controller';
+import { LoggerModule } from 'nestjs-pretty-logger'
+
+import { Module } from '@nestjs/common'
+
+import { AppController, AppService } from './app.controller'
 
 @Module({
   imports: [LoggerModule],
@@ -64,32 +67,44 @@ Configure and utilize advanced features:
 
 ```typescript
 // Custom Logger Setup
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { Logger, createLogger } from 'nestjs-pretty-logger';
-import path from 'path';
+import path from 'path'
+import { createLogger, Logger } from 'nestjs-pretty-logger'
+
+import { NestFactory } from '@nestjs/core'
+
+import { AppModule } from './app.module'
 
 const customLogger = createLogger({
   writeToFile: {
     loggerDir: path.resolve(__dirname, './logs'),
   },
-});
+})
 
 // Wrap all console and stdout.write with customLogger
-customLogger.wrapAll();
+customLogger.wrapAll()
 
 // Implement onData hook for real-time logging or custom actions
 customLogger.onData((data) => {
   // Your custom implementation here
-});
+})
+
+// Only error log
+customLogger.onStdErr((data) => {
+  // Your custom implementation here
+})
+
+// Only non-error log
+customLogger.onStdOut((data) => {
+  // Your custom implementation here
+})
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  Logger.setLoggerInstance(customLogger);
-  app.useLogger(app.get(Logger));
-  await app.listen(3000);
+  const app = await NestFactory.create(AppModule)
+  Logger.setLoggerInstance(customLogger)
+  app.useLogger(app.get(Logger))
+  await app.listen(3000)
 }
-bootstrap();
+bootstrap()
 ```
 
 **Note**: After invoking `wrapAll()`, avoid using `console.log` or similar stdout functions within `onData()` to prevent potential infinite loops.
@@ -100,10 +115,10 @@ The `createLogger` method includes the `FileReporterConfig` interface for file r
 
 ```typescript
 interface FileReporterConfig {
-    loggerDir: string;                // Required: Log file directory
-    stdoutFileFormat?: string;        // Optional: Default 'stdout_%d%.log'
-    stderrFileFormat?: string;        // Optional: Default 'error.log'
-    cron?: string;                    // Optional: Default '0 0 * * *' for daily log rotation
+  loggerDir: string // Required: Log file directory
+  stdoutFileFormat?: string // Optional: Default 'stdout_%d%.log'
+  stderrFileFormat?: string // Optional: Default 'error.log'
+  cron?: string // Optional: Default '0 0 * * *' for daily log rotation
 }
 ```
 
@@ -118,4 +133,3 @@ Contributions to "NestJS Pretty Logger" are highly appreciated. Whether it's thr
 2023 © Innei, MIT License.
 
 > [Personal Site](https://innei.in/) · GitHub [@Innei](https://github.com/innei/)
-

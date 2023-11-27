@@ -55,4 +55,6 @@ export interface ConsolaReporter {
 
 export interface WrappedConsola extends ConsolaInstance {
   onData: (handler: (data: string) => any) => WrappedConsola
+  onStdOut: (handler: (data: string) => any) => WrappedConsola
+  onStdErr: (handler: (data: string) => any) => WrappedConsola
 }
