@@ -44,7 +44,7 @@
     "release": "bump",
     "dev": "tsc -w -p tsconfig.cjs.json"
   },
-  "optionalDependencies": {
+  "peerDependencies": {
     "@nestjs/common": ">=10"
   },
   "devDependencies": {
