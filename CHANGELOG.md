@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [0.2.1](https://github.com/Innei/nestjs-pretty-logger/compare/v0.2.0...v0.2.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* deps ([5614c3a](https://github.com/Innei/nestjs-pretty-logger/commit/5614c3ac39d69ad6adc1a40e2b19b8b4716c63d6))
+
+
+
 # [0.2.0](https://github.com/Innei/nestjs-pretty-logger/compare/v0.1.1...v0.2.0) (2023-11-27)
 
 
