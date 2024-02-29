@@ -25,6 +25,12 @@ export interface FileReporterConfig {
    * @default '0 0 * * *'
    */
   cron?: string
+
+  /**
+   * Error log will be written to stdout and stderr
+   * @default false
+   */
+  errWriteToStdout?: boolean
 }
 
 export class FileReporter extends LoggerReporter {
@@ -97,6 +103,9 @@ export class FileReporter extends LoggerReporter {
       columns: undefined,
     })
 
+    if (this.configs.errWriteToStdout && logObj.level < 2) {
+      writeStream(`${line}\n`, finalStdout)
+    }
     return writeStream(
       `${line}\n`,
       logObj.level < 2 ? finalStderr : finalStdout,
