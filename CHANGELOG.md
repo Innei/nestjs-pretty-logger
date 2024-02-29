@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [0.2.2](https://github.com/Innei/nestjs-pretty-logger/compare/v0.2.1...v0.2.2) (2024-02-29)
+
+
+### Features
+
+* error to stdout ([5def54f](https://github.com/Innei/nestjs-pretty-logger/commit/5def54f1298db3f997b733cfd468b52d46c56a74))
+
+
+
 ## [0.2.1](https://github.com/Innei/nestjs-pretty-logger/compare/v0.2.0...v0.2.1) (2024-02-06)
 
 
