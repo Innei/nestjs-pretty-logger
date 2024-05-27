@@ -1,9 +1,9 @@
+import type { ConsolaInstance } from '@innei/pretty-logger-core'
 import type { DynamicModule } from '@nestjs/common'
-import type { ConsolaInstance } from './consola/consola.js'
 
+import { createLoggerConsola } from '@innei/pretty-logger-core'
 import { Module } from '@nestjs/common'
 
-import { createLoggerConsola } from './consola.instance.js'
 import { Logger } from './logger.service.js'
 
 interface LoggerModuleOptions {

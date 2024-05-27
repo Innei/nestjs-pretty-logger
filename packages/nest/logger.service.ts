@@ -1,11 +1,10 @@
 import cluster from 'cluster'
 import picocolors from 'picocolors'
+import type { WrappedConsola } from '@innei/pretty-logger-core'
 import type { ConsoleLoggerOptions } from '@nestjs/common'
-import type { WrappedConsola } from './consola'
 
+import { createLoggerConsola } from '@innei/pretty-logger-core'
 import { ConsoleLogger } from '@nestjs/common'
-
-import { createLoggerConsola } from './consola.instance'
 
 type LoggerType =
   | 'info'

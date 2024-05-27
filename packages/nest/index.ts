@@ -3,4 +3,4 @@ export { LoggerModule } from './logger.module.js'
 export {
   LoggerConsolaOptions,
   createLoggerConsola as createLogger,
-} from './consola.instance.js'
+} from '@innei/pretty-logger-core'
