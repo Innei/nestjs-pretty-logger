@@ -6,7 +6,6 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "dev": "nodemon",
     "start:debug": "nest start --debug --watch",
@@ -23,7 +22,8 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "@innei/pretty-logger-nestjs": "workspace:*"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

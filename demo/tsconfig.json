@@ -18,10 +18,5 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "nestjs-pretty-logger": [
-        "../lib"
-      ],
-    }
   },
 }

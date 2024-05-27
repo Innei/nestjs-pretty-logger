@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, createLogger } from 'nestjs-pretty-logger';
+import { Logger, createLogger } from '@innei/pretty-logger-nestjs';
 import path from 'path';
 
 const customLogger = createLogger({

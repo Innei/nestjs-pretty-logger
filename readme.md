@@ -18,7 +18,7 @@
 To install, run the following command:
 
 ```bash
-npm i nestjs-pretty-logger
+npm i @innei/pretty-logger-nestjs
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ In your `main.ts`:
 
 ```typescript
 // main.ts
-import { Logger } from 'nestjs-pretty-logger'
+import { Logger } from '@innei/pretty-logger-nestjs'
 
 import { NestFactory } from '@nestjs/core'
 
@@ -47,7 +47,7 @@ In your `app.module.ts`:
 
 ```typescript
 // app.module.ts
-import { LoggerModule } from 'nestjs-pretty-logger'
+import { LoggerModule } from '@innei/pretty-logger-nestjs'
 
 import { Module } from '@nestjs/common'
 
@@ -68,7 +68,7 @@ Configure and utilize advanced features:
 ```typescript
 // Custom Logger Setup
 import path from 'path'
-import { createLogger, Logger } from 'nestjs-pretty-logger'
+import { createLogger, Logger } from '@innei/pretty-logger-nestjs'
 
 import { NestFactory } from '@nestjs/core'
 
@@ -130,6 +130,6 @@ Contributions to "NestJS Pretty Logger" are highly appreciated. Whether it's thr
 
 ## License
 
-2023 © Innei, MIT License.
+2024 © Innei, MIT License.
 
 > [Personal Site](https://innei.in/) · GitHub [@Innei](https://github.com/innei/)
