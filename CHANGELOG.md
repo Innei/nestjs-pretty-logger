@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# [0.3.0](https://github.com/Innei/nestjs-pretty-logger/compare/v0.2.2...v0.3.0) (2024-05-27)
+
+
+
 ## [0.2.2](https://github.com/Innei/nestjs-pretty-logger/compare/v0.2.1...v0.2.2) (2024-02-29)
 
 
