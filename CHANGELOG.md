@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [0.3.1](https://github.com/Innei/nestjs-pretty-logger/compare/v0.3.0...v0.3.1) (2024-05-27)
+
+
+### Bug Fixes
+
+* version ([5e30d91](https://github.com/Innei/nestjs-pretty-logger/commit/5e30d916e707e061fc0aaded8314d4c4bb9163f9))
+
+
+
 # [0.3.0](https://github.com/Innei/nestjs-pretty-logger/compare/v0.2.2...v0.3.0) (2024-05-27)
 
 
