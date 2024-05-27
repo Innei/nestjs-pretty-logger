@@ -9,13 +9,6 @@
     "url": "https://github.com/Innei/nestjs-pretty-logger",
     "directory": "Innei/nestjs-pretty-logger"
   },
-  "main": "lib/index.js",
-  "files": [
-    "lib",
-    "esm",
-    "readme.md",
-    "types"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -32,7 +25,11 @@
       "npm run build"
     ],
     "publish": true,
-    "changelog": true
+    "changelog": true,
+    "mode": "monorepo",
+    "packages": [
+      "packages/*"
+    ]
   },
   "scripts": {
     "test": "vitest",
@@ -50,13 +47,11 @@
     "husky": "8.0.3",
     "lint-staged": "15.0.2",
     "prettier": "3.0.3",
-    "tsc-alias": "1.8.8",
     "tslib": "2.6.2",
     "tsup": "8.0.2",
     "typescript": "5.2.2",
     "vite": "4.5.0",
     "vite-tsconfig-paths": "4.2.1",
     "vitest": "0.34.6"
-  },
-  "dependencies": {}
+  }
 }
