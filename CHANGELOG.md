@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [0.3.3](https://github.com/Innei/nestjs-pretty-logger/compare/v0.3.2...v0.3.3) (2024-08-01)
+
+
+### Bug Fixes
+
+* bundle string-width ([6b2fb29](https://github.com/Innei/nestjs-pretty-logger/commit/6b2fb2926ff779cff6d37e478beb8fbd0f158267))
+
+
+
 ## [0.3.2](https://github.com/Innei/nestjs-pretty-logger/compare/v0.3.1...v0.3.2) (2024-05-27)
 
 

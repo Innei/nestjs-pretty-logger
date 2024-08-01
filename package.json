@@ -1,6 +1,6 @@
 {
   "name": "nestjs-pretty-logger",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "Elevate NestJS logging with stylish, file-redirected, and real-time capable logging based on consola. Compact, powerful, and easy to integrate",
   "author": "Innei",
