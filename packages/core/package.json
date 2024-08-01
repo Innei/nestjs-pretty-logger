@@ -17,7 +17,9 @@
     "cron": "3.1.6",
     "defu": "^6.1.3",
     "picocolors": "^1.0.0",
-    "std-env": "^3.5.0",
+    "std-env": "^3.5.0"
+  },
+  "devDependencies": {
     "string-width": "npm:@innei/string-width@7.1.1-fork.0"
   }
 }
