@@ -1,9 +1,9 @@
 import { isDevelopment } from 'std-env'
-import type { ConsolaOptions, ConsolaReporter } from './consola'
-import type { FileReporterConfig } from './consola/reporters/file'
 
+import type { ConsolaOptions, ConsolaReporter } from './consola'
 import { createConsola, LogLevels } from './consola'
 import { FancyReporter } from './consola/reporters/fancy'
+import type { FileReporterConfig } from './consola/reporters/file'
 import { FileReporter } from './consola/reporters/file'
 import {
   SubscriberReporter,
@@ -14,7 +14,7 @@ export interface LoggerConsolaOptions extends Partial<ConsolaOptions> {
   writeToFile?: FileReporterConfig
 }
 
-export const createLoggerConsola = (options?: LoggerConsolaOptions) => {
+export function createLoggerConsola (options?: LoggerConsolaOptions) {
   const reporters: ConsolaReporter[] = [
     new FancyReporter(),
     new SubscriberReporter(),

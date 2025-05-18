@@ -1,13 +1,13 @@
 import { defu } from 'defu'
+
 import type { LogLevel, LogType } from './constants'
+import { LogTypes } from './constants'
 import type {
   ConsolaOptions,
   ConsolaReporter,
   InputLogObject,
   LogObject,
 } from './types'
-
-import { LogTypes } from './constants'
 import { isLogObj } from './utils/log'
 
 let paused = false
@@ -30,13 +30,13 @@ export class Consola {
     // Options
     const types = options.types || LogTypes
     this.options = defu(
-      <ConsolaOptions>{
+      ({
         ...options,
         defaults: { ...options.defaults },
         level: _normalizeLogLevel(options.level, types),
         reporters: [...(options.reporters || [])],
-      },
-      <Partial<ConsolaOptions>>{
+      } as ConsolaOptions),
+      ({
         types: LogTypes,
         throttle: 1000,
         throttleMin: 5,
@@ -45,7 +45,7 @@ export class Consola {
           colors: false,
           compact: true,
         },
-      },
+      } as Partial<ConsolaOptions>),
     )
 
     // Create logger functions for current instance
@@ -125,7 +125,7 @@ export class Consola {
   removeReporter(reporter: ConsolaReporter) {
     if (reporter) {
       const i = this.options.reporters.indexOf(reporter)
-      if (i >= 0) {
+      if (i !== -1) {
         return this.options.reporters.splice(i, 1)
       }
     } else {
@@ -153,13 +153,13 @@ export class Consola {
     for (const type in this.options.types) {
       // Backup original value
       if (!(console as any)[`__${type}`]) {
-        // eslint-disable-line no-console
-        ;(console as any)[`__${type}`] = (console as any)[type] // eslint-disable-line no-console
+         
+        ;(console as any)[`__${type}`] = (console as any)[type]  
       }
       // Override
       ;(console as any)[type] = (this as unknown as ConsolaInstance)[
         type as LogType
-      ].raw // eslint-disable-line no-console
+      ].raw  
     }
   }
 
@@ -167,9 +167,9 @@ export class Consola {
     for (const type in this.options.types) {
       // Restore if backup is available
       if ((console as any)[`__${type}`]) {
-        // eslint-disable-line no-console
-        ;(console as any)[type] = (console as any)[`__${type}`] // eslint-disable-line no-console
-        delete (console as any)[`__${type}`] // eslint-disable-line no-console
+         
+        ;(console as any)[type] = (console as any)[`__${type}`]  
+        delete (console as any)[`__${type}`]  
       }
     }
   }
@@ -277,7 +277,7 @@ export class Consola {
 
     // Aliases
     if (logObj.message) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+       
       logObj.args!.unshift(logObj.message)
       delete logObj.message
     }
@@ -285,7 +285,7 @@ export class Consola {
       if (!Array.isArray(logObj.additional)) {
         logObj.additional = logObj.additional.split('\n')
       }
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+       
       logObj.args!.push(`\n${logObj.additional.join('\n')}`)
       delete logObj.additional
     }

@@ -2,13 +2,34 @@
   "name": "nestjs-pretty-logger",
   "version": "0.3.2",
   "private": true,
+  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977",
   "description": "Elevate NestJS logging with stylish, file-redirected, and real-time capable logging based on consola. Compact, powerful, and easy to integrate",
   "author": "Innei",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Innei/nestjs-pretty-logger",
-    "directory": "Innei/nestjs-pretty-logger"
+    "url": "https://github.com/Innei/nestjs-pretty-logger"
+  },
+  "scripts": {
+    "build": "pnpm -r run build",
+    "release": "bump",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@innei/bump-version": "1.5.10",
+    "@innei/prettier": "0.15.0",
+    "@nestjs/common": "^11.1.1",
+    "@types/node": "22.15.18",
+    "eslint": "^9.27.0",
+    "eslint-config-hyoban": "4.0.7",
+    "husky": "9.1.7",
+    "lint-staged": "16.0.0",
+    "prettier": "3.5.3",
+    "tsdown": "0.11.11",
+    "typescript": "5.8.3",
+    "vite": "6.3.5",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "3.1.3"
   },
   "husky": {
     "hooks": {
@@ -31,28 +52,5 @@
     "packages": [
       "packages/*"
     ]
-  },
-  "scripts": {
-    "test": "vitest",
-    "release": "bump",
-    "build": "pnpm -r run build"
-  },
-  "devDependencies": {
-    "@innei/bump-version": "1.5.10",
-    "@innei/eslint-config-react-ts": "0.11.1",
-    "@innei/eslint-config-ts": "0.11.1",
-    "@innei/prettier": "0.12.0",
-    "@nestjs/common": "^10.2.10",
-    "@types/node": "20.8.10",
-    "esbuild": "0.19.5",
-    "husky": "8.0.3",
-    "lint-staged": "15.0.2",
-    "prettier": "3.0.3",
-    "tslib": "2.6.2",
-    "tsup": "8.0.2",
-    "typescript": "5.2.2",
-    "vite": "4.5.0",
-    "vite-tsconfig-paths": "4.2.1",
-    "vitest": "0.34.6"
   }
 }

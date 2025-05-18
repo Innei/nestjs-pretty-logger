@@ -1,15 +1,15 @@
-/* eslint-disable prefer-rest-params */
+ 
 import picocolors from 'picocolors'
 import { isDevelopment } from 'std-env'
-import type { FormatOptions, LogObject } from '../types'
 
 import { getShortTime } from '../../tool.util'
+import type { FormatOptions, LogObject } from '../types'
 import { FancyReporter } from './fancy'
 
 export class LoggerReporter extends FancyReporter {
   private latestLogTime: number = Date.now()
   public formatDate(date: Date, opts: FormatOptions): string {
-    const isInVirtualTerminal = typeof opts.columns === 'undefined'
+    const isInVirtualTerminal = opts.columns === undefined
     if (isDevelopment) {
       const now = Date.now()
       const delta = now - this.latestLogTime
@@ -21,7 +21,7 @@ export class LoggerReporter extends FancyReporter {
   }
 
   public formatLogObj(logObj: LogObject, opts: FormatOptions): string {
-    const isInVirtualTerminal = typeof opts.columns === 'undefined'
+    const isInVirtualTerminal = opts.columns === undefined
     return isInVirtualTerminal
       ? `${picocolors.gray(getShortTime(new Date()))} ${super
           .formatLogObj(logObj, opts)

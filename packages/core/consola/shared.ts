@@ -1,6 +1,5 @@
-export { LogLevels, LogTypes } from './constants'
-export { Consola } from './consola'
-
-export type * from './types'
 export type { ConsolaInstance } from './consola'
+export { Consola } from './consola'
 export type { LogLevel, LogType } from './constants'
+export { LogLevels, LogTypes } from './constants'
+export type * from './types'

@@ -1,11 +1,12 @@
-import { createWriteStream } from 'fs'
-import * as fs from 'fs'
-import { dirname } from 'path'
+import type { WriteStream } from 'node:fs'
+import { createWriteStream } from 'node:fs'
+import * as fs from 'node:fs'
+import { dirname } from 'node:path'
+
 import { CronJob } from 'cron'
-import type { WriteStream } from 'fs'
-import type { ConsolaOptions, LogObject } from '../types'
 
 import { getLogFilePath } from '../../tool.util'
+import type { ConsolaOptions, LogObject } from '../types'
 import { writeStream } from '../utils/stream'
 import { LoggerReporter } from './logger'
 
@@ -113,7 +114,7 @@ export class FileReporter extends LoggerReporter {
   }
 }
 
-const createLoggerFileIfNotExist = (path: string) => {
+function createLoggerFileIfNotExist (path: string) {
   const dirPath = dirname(path)
 
   if (!fs.existsSync(dirPath)) {

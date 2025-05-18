@@ -1,29 +1,20 @@
-import path from 'path'
+import path from 'node:path'
 
-export const getShortTime = (date: Date) => {
+export function getShortTime (date: Date) {
   return Intl.DateTimeFormat('en-US', {
     timeStyle: 'medium',
     hour12: false,
   }).format(date)
 }
 
-export const getShortDate = (date: Date) => {
+export function getShortDate (date: Date) {
   return Intl.DateTimeFormat('en-US', {
     dateStyle: 'short',
   })
     .format(date)
-    .replace(/\//g, '-')
-}
-/** 2-12-22, 21:31:42 */
-export const getShortDateTime = (date: Date) => {
-  return Intl.DateTimeFormat('en-US', {
-    dateStyle: 'short',
-    timeStyle: 'medium',
-    hour12: false,
-  })
-    .format(date)
-    .replace(/\//g, '-')
+    .replaceAll('/', '-')
 }
 
-export const getLogFilePath = (logDir: string, formatString: string) =>
-  path.resolve(logDir, formatString.replace(/%d/g, getShortDate(new Date())))
+export function getLogFilePath (logDir: string, formatString: string) {
+  return path.resolve(logDir, formatString.replaceAll('%d', getShortDate(new Date())))
+}

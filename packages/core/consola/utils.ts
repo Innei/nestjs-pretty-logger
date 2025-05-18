@@ -1,9 +1,9 @@
 export * from './utils/box'
 export * from './utils/color'
 export {
-  stripAnsi,
-  centerAlign,
-  rightAlign,
-  leftAlign,
   align,
+  centerAlign,
+  leftAlign,
+  rightAlign,
+  stripAnsi,
 } from './utils/string'

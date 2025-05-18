@@ -1,6 +1,5 @@
 import type { LogObject } from './types'
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type LogLevel = 0 | 1 | 2 | 3 | 4 | 5 | (number & {})
 
 export const LogLevels: Record<LogType, number> = {

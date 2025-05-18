@@ -1,10 +1,10 @@
-import cluster from 'cluster'
-import picocolors from 'picocolors'
-import type { WrappedConsola } from '@innei/pretty-logger-core'
-import type { ConsoleLoggerOptions } from '@nestjs/common'
+import cluster from 'node:cluster'
 
+import type { WrappedConsola } from '@innei/pretty-logger-core'
 import { createLoggerConsola } from '@innei/pretty-logger-core'
+import type { ConsoleLoggerOptions } from '@nestjs/common'
 import { ConsoleLogger } from '@nestjs/common'
+import picocolors from 'picocolors'
 
 type LoggerType =
   | 'info'
@@ -27,16 +27,21 @@ export class Logger extends ConsoleLogger {
   }
   private _getColorByLogLevel(logLevel: string) {
     switch (logLevel) {
-      case 'debug':
+      case 'debug': {
         return picocolors.cyan
-      case 'warn':
+      }
+      case 'warn': {
         return picocolors.yellow
-      case 'error':
+      }
+      case 'error': {
         return picocolors.red
-      case 'verbose':
+      }
+      case 'verbose': {
         return picocolors.gray
-      default:
+      }
+      default: {
         return picocolors.green
+      }
     }
   }
 
@@ -101,13 +106,13 @@ export class Logger extends ConsoleLogger {
     const workerPrefix = cluster.isWorker
       ? picocolors.yellow(`*Worker - ${cluster!.worker!.id}*`)
       : ''
-    if (context && !argv.length) {
+    if (context && argv.length === 0) {
       print(
         `${workerPrefix} [${picocolors.yellow(context)}] `,
         formatMessage,
         diff,
       )
-    } else if (!argv.length) {
+    } else if (argv.length === 0) {
       print(`${workerPrefix} ${this.defaultContextPrefix}`, formatMessage, diff)
     } else {
       print(

@@ -1,7 +1,9 @@
+import path from 'node:path';
+
+import { createLogger,Logger } from '@innei/pretty-logger-nestjs';
 import { NestFactory } from '@nestjs/core';
+
 import { AppModule } from './app.module';
-import { Logger, createLogger } from '@innei/pretty-logger-nestjs';
-import path from 'path';
 
 const customLogger = createLogger({
   writeToFile: {

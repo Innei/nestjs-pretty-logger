@@ -1,18 +1,18 @@
 import { formatWithOptions } from 'node:util'
+
 import type {
   ConsolaOptions,
   ConsolaReporter,
   FormatOptions,
   LogObject,
 } from '../types'
-
 import { parseStack } from '../utils/error'
 import { writeStream } from '../utils/stream'
 
 const bracket = (x: string) => (x ? `[${x}]` : '')
 
 export class BasicReporter implements ConsolaReporter {
-  formatStack(stack: string, opts: FormatOptions) {
+  formatStack(stack: string, _opts: FormatOptions) {
     return `  ${parseStack(stack).join('\n  ')}`
   }
 

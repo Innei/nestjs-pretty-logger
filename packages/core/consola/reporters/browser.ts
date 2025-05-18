@@ -27,6 +27,7 @@ export class BrowserReporter {
     if (level === 1) {
       return (console as any).__warn || console.warn
     }
+    // eslint-disable-next-line no-console
     return (console as any).__log || console.log
   }
 

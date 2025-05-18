@@ -1,12 +1,12 @@
 import { isCI, isDebug, isTest } from 'std-env'
-import type { ConsolaInstance } from './consola'
-import type { LogLevel } from './constants'
-import type { ConsolaOptions } from './types'
 
+import type { ConsolaInstance } from './consola'
 import { createConsola as _createConsola } from './consola'
+import type { LogLevel } from './constants'
 import { LogLevels } from './constants'
 import { BasicReporter } from './reporters/basic'
 import { FancyReporter } from './reporters/fancy'
+import type { ConsolaOptions } from './types'
 
 export * from './shared'
 

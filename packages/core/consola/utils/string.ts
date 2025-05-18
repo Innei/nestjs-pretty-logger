@@ -1,10 +1,15 @@
+/* eslint-disable regexp/no-useless-escape */
+/* eslint-disable regexp/prefer-w */
+/* eslint-disable regexp/no-useless-quantifier */
+/* eslint-disable regexp/no-trivially-nested-quantifier */
+/* eslint-disable regexp/no-useless-non-capturing-group */
 const ansiRegex = [
   '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
   '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))',
 ].join('|')
 
 export function stripAnsi(text: string) {
-  return text.replace(new RegExp(ansiRegex, 'g'), '')
+  return text.replaceAll(new RegExp(ansiRegex, 'g'), '')
 }
 
 export function centerAlign(str: string, len: number, space = ' ') {

@@ -1,16 +1,16 @@
 import _stringWidth from 'string-width'
+
 import type { LogLevel, LogType } from '../constants'
 import type { FormatOptions, LogObject } from '../types'
-import type { BoxOpts } from '../utils/box'
-
 import { stripAnsi } from '../utils'
+import type { BoxOpts } from '../utils/box'
 import { box } from '../utils/box'
 import { colors } from '../utils/color'
 import { parseStack } from '../utils/error'
 import { isUnicodeSupported } from '../utils/tester'
 import { BasicReporter } from './basic'
 
-export const TYPE_COLOR_MAP: { [k in LogType]?: string } = {
+export const TYPE_COLOR_MAP: Partial<Record<LogType, string>> = {
   info: 'cyan',
   fail: 'red',
   success: 'green',
@@ -18,14 +18,14 @@ export const TYPE_COLOR_MAP: { [k in LogType]?: string } = {
   start: 'magenta',
 }
 
-export const LEVEL_COLOR_MAP: { [k in LogLevel]?: string } = {
+export const LEVEL_COLOR_MAP: Partial<Record<LogLevel, string>> = {
   0: 'red',
   1: 'yellow',
 }
 
 const unicode = isUnicodeSupported()
 const s = (c: string, fallback: string) => (unicode ? c : fallback)
-const TYPE_ICONS: { [k in LogType]?: string } = {
+const TYPE_ICONS: Partial<Record<LogType, string>> = {
   error: s('✖', '×'),
   fatal: s('✖', '×'),
   ready: s('✔', '√'),
@@ -59,7 +59,7 @@ export class FancyReporter extends BasicReporter {
       .join('\n')}`
   }
 
-  formatType(logObj: LogObject, isBadge: boolean, opts: FormatOptions) {
+  formatType(logObj: LogObject, isBadge: boolean, _opts: FormatOptions) {
     const typeColor =
       (TYPE_COLOR_MAP as any)[logObj.type] ||
       (LEVEL_COLOR_MAP as any)[logObj.level] ||
@@ -134,9 +134,9 @@ function characterFormat(str: string) {
   return (
     str
       // highlight backticks
-      .replace(/`([^`]+)`/gm, (_, m) => colors.cyan(m))
+      .replaceAll(/`([^`]+)`/g, (_, m) => colors.cyan(m))
       // underline underscores
-      .replace(/\s+_([^_]+)_\s+/gm, (_, m) => ` ${colors.underline(m)} `)
+      .replaceAll(/\s+_([^_]+)_\s+/g, (_, m) => ` ${colors.underline(m)} `)
   )
 }
 
