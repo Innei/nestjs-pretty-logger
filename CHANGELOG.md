@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [0.4.1](https://github.com/Innei/nestjs-pretty-logger/compare/v0.4.0...v0.4.1) (2026-01-25)
+
+
+### Features
+
+* add static logging methods to Logger class for improved logging capabilities ([fdc7bd3](https://github.com/Innei/nestjs-pretty-logger/commit/fdc7bd3abaeedbfc4646a350b63c8cb4507e4b09))
+
+
+
 # [0.4.0](https://github.com/Innei/nestjs-pretty-logger/compare/v0.3.5...v0.4.0) (2026-01-25)
 
 
