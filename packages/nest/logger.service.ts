@@ -107,4 +107,53 @@ export class Logger extends ConsoleLogger {
   error(...args: any[]) {
     this.print('error', ...args)
   }
+
+  // Static methods for Logger.log(), Logger.error(), etc.
+  private static staticPrint(level: LogLevel, ...args: any[]) {
+    const print = Logger.loggerInstance[level]
+
+    let context: string | undefined
+    let messages = args
+
+    // Check if the last argument is a context string (NestJS convention)
+    const last = args.at(-1)
+    if (args.length > 0 && typeof last === 'string' && /^[A-Z][a-zA-Z0-9]*$/.test(last)) {
+      context = last
+      messages = args.slice(0, -1)
+    }
+
+    const prefix = context
+      ? `[${picocolors.yellow(context)}]`
+      : `[${picocolors.red('System')}]`
+
+    print(prefix, ...messages)
+  }
+
+  static log(...args: any[]) {
+    Logger.staticPrint('info', ...args)
+  }
+
+  static info(...args: any[]) {
+    Logger.staticPrint('info', ...args)
+  }
+
+  static warn(...args: any[]) {
+    Logger.staticPrint('warn', ...args)
+  }
+
+  static debug(...args: any[]) {
+    Logger.staticPrint('debug', ...args)
+  }
+
+  static verbose(...args: any[]) {
+    Logger.staticPrint('verbose', ...args)
+  }
+
+  static fatal(...args: any[]) {
+    Logger.staticPrint('fatal', ...args)
+  }
+
+  static error(...args: any[]) {
+    Logger.staticPrint('error', ...args)
+  }
 }
