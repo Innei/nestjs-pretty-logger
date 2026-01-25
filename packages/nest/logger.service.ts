@@ -1,12 +1,12 @@
 import cluster from 'node:cluster'
-
-import type { WrappedConsola } from '@innei/pretty-logger-core'
-import { createLoggerConsola } from '@innei/pretty-logger-core'
-import type { ConsoleLoggerOptions } from '@nestjs/common'
-import { ConsoleLogger } from '@nestjs/common'
 import picocolors from 'picocolors'
+import type { WrappedConsola } from '@innei/pretty-logger-core'
+import type { ConsoleLoggerOptions } from '@nestjs/common'
 
-type LoggerType =
+import { createLoggerConsola } from '@innei/pretty-logger-core'
+import { ConsoleLogger } from '@nestjs/common'
+
+type LogLevel =
   | 'info'
   | 'log'
   | 'error'
@@ -22,32 +22,13 @@ export class Logger extends ConsoleLogger {
     this.loggerInstance = logger
   }
 
-  constructor(context: string, options: ConsoleLoggerOptions) {
-    super(context, options)
-  }
-  private _getColorByLogLevel(logLevel: string) {
-    switch (logLevel) {
-      case 'debug': {
-        return picocolors.cyan
-      }
-      case 'warn': {
-        return picocolors.yellow
-      }
-      case 'error': {
-        return picocolors.red
-      }
-      case 'verbose': {
-        return picocolors.gray
-      }
-      default: {
-        return picocolors.green
-      }
-    }
+  constructor(context?: string, options?: ConsoleLoggerOptions) {
+    super(context || '', options || {})
   }
 
   private lastTimestampAt: number = Date.now()
   private _updateAndGetTimestampDiff() {
-    const includeTimestamp = this.lastTimestampAt && this.options.timestamp
+    const includeTimestamp = this.lastTimestampAt && this.options?.timestamp
     const now = Date.now()
     const result = includeTimestamp
       ? picocolors.yellow(` +${now - this.lastTimestampAt}ms`)
@@ -55,77 +36,75 @@ export class Logger extends ConsoleLogger {
     this.lastTimestampAt = now
     return result
   }
-  protected formatMessage(message: any, logLevel = 'log') {
-    const formatMessage =
-      typeof message == 'string'
-        ? this._getColorByLogLevel(logLevel)(message)
-        : message
-    return formatMessage
+
+  private getContextPrefix(context?: string) {
+    const ctx = context || this.context
+    return ctx ? `[${picocolors.yellow(ctx)}]` : `[${picocolors.red('System')}]`
   }
 
-  log(message: any, context?: string, ...argv: any[]) {
-    this.print('info', message, context, ...argv)
+  private get workerPrefix() {
+    return cluster.isWorker
+      ? picocolors.yellow(`*Worker - ${cluster.worker!.id}*`)
+      : ''
   }
 
-  warn(message: any, context?: string, ...argv: any[]) {
-    this.print('warn', message, context, ...argv)
-  }
-  debug(message: any, context?: string, ...argv: any[]) {
-    this.print('debug', message, context, ...argv)
-  }
-
-  verbose(message: any, context?: string, ...argv: any[]) {
-    this.print('verbose', message, context, ...argv)
-  }
-
-  fatal(message: any, context?: string, ...argv: any[]) {
-    this.print('fatal', message, context, ...argv)
+  /**
+   * Check if the last argument looks like a NestJS context string.
+   * NestJS passes context as the last string argument (e.g., 'AppService', 'UserController').
+   * Context strings are typically PascalCase class names.
+   */
+  private isContextString(value: unknown): value is string {
+    if (typeof value !== 'string') return false
+    // Context is usually a short PascalCase identifier (class name)
+    // Not a sentence, not a path, not containing spaces or special chars
+    return /^[A-Z][a-zA-Z0-9]*$/.test(value)
   }
 
-  error(message: any, context?: string, ...argv: any[]) {
-    const trace = context
-    const _context = argv[0]
-
-    if (!trace && _context) {
-      this.print('error', message, _context, ...argv.slice(1))
-    } else {
-      this.print('error', message, context, ...argv)
-    }
-  }
-
-  private print(
-    level: LoggerType,
-    message: any,
-    context?: string,
-    ...argv: any[]
-  ) {
+  private print(level: LogLevel, ...args: any[]) {
     const print = Logger.loggerInstance[level]
-    const formatMessage = this.formatMessage(message, level)
     const diff = this._updateAndGetTimestampDiff()
 
-    const workerPrefix = cluster.isWorker
-      ? picocolors.yellow(`*Worker - ${cluster!.worker!.id}*`)
-      : ''
-    if (context && argv.length === 0) {
-      print(
-        `${workerPrefix} [${picocolors.yellow(context)}] `,
-        formatMessage,
-        diff,
-      )
-    } else if (argv.length === 0) {
-      print(`${workerPrefix} ${this.defaultContextPrefix}`, formatMessage, diff)
-    } else {
-      print(
-        `${workerPrefix} ${this.defaultContextPrefix}`,
-        message,
-        context,
-        ...argv,
-        diff,
-      )
+    let context: string | undefined
+    let messages = args
+
+    // Check if the last argument is a context string (NestJS convention)
+    if (args.length > 0 && this.isContextString(args.at(-1))) {
+      context = args.at(-1)
+      messages = args.slice(0, -1)
     }
+
+    const prefix = this.workerPrefix
+      ? `${this.workerPrefix} ${this.getContextPrefix(context)}`
+      : this.getContextPrefix(context)
+
+    print(prefix, ...messages, diff)
   }
 
-  private defaultContextPrefix = this.context
-    ? `[${picocolors.yellow(this.context)}] `
-    : `[${picocolors.red('System')}] `
+  log(...args: any[]) {
+    this.print('info', ...args)
+  }
+
+  info(...args: any[]) {
+    this.print('info', ...args)
+  }
+
+  warn(...args: any[]) {
+    this.print('warn', ...args)
+  }
+
+  debug(...args: any[]) {
+    this.print('debug', ...args)
+  }
+
+  verbose(...args: any[]) {
+    this.print('verbose', ...args)
+  }
+
+  fatal(...args: any[]) {
+    this.print('fatal', ...args)
+  }
+
+  error(...args: any[]) {
+    this.print('error', ...args)
+  }
 }

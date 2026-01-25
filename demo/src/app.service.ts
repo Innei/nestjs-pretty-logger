@@ -4,7 +4,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 export class AppService implements OnModuleInit {
   private readonly logger = new Logger(AppService.name);
   onModuleInit() {
-    this.logger.log('AppService initialized');
+    this.logger.log('AppService initialized', 'aaaaaa', {}, new Date());
   }
   getHello(): string {
     return 'Hello World!';
