@@ -101,7 +101,7 @@ export class FancyReporter extends BasicReporter {
     const date = this.formatDate(logObj.date, opts)
     const coloredDate = date && colors.gray(date)
 
-    const isBadge = (logObj.badge as boolean) ?? logObj.level < 2
+    const isBadge = (logObj.badge as boolean) ?? false
     const type = this.formatType(logObj, isBadge, opts)
 
     const tag = logObj.tag ? colors.gray(logObj.tag) : ''
