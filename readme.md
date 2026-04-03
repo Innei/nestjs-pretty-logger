@@ -1,38 +1,51 @@
 # NestJS Pretty Logger
 
-![1126201123](https://cdn.jsdelivr.net/gh/Innei/fancy-2023@main/2023/1126201123.png)
+![NestJS Pretty Logger](https://cdn.jsdelivr.net/gh/Innei/fancy-2023@main/2023/1126201123.png)
 
-## Introduction
+[![npm](https://img.shields.io/npm/v/@innei/pretty-logger-nestjs.svg)](https://www.npmjs.com/package/@innei/pretty-logger-nestjs)
+[![GitHub](https://img.shields.io/badge/GitHub-Innei%2Fnestjs--pretty--logger-24292f?logo=github)](https://github.com/Innei/nestjs-pretty-logger)
 
-"NestJS Pretty Logger" is a versatile and visually appealing global Logger module for NestJS applications. This module extends the functionality of the default NestJS logger by utilizing the [consola](https://github.com/unjs/consola) library for enhanced aesthetics and includes features like file redirection and real-time logging capabilities.
+Pretty, practical logging for Node and NestJS: terminal-friendly output inspired by [consola](https://github.com/unjs/consola), optional **log files** with date-based names and scheduled stream refresh, **`wrapAll`** to capture `console` and stdio, and **`onData` / `onStdOut` / `onStdErr`** hooks for live forwarding (WebSockets, aggregators, etc.).
 
-## Features
+## Monorepo packages
 
-- **Aesthetic and Functional Logging**: Integrates [consola](https://github.com/unjs/consola) for an enhanced logging experience.
-- **Log File Redirection**: Ability to redirect `stdout` to files, allowing for organized log management.
-- **App-Wide Logging Coverage**: Capable of covering the entire application's console and `stdout.write` functionalities.
-- **Real-Time Logging Support**: Provides the `onData()` hook for real-time logging implementations, such as custom log recorders or WebSocket real-time log streaming.
+| Package | Description |
+| --- | --- |
+| [`@innei/pretty-logger-nestjs`](packages/nest/README.md) | NestJS `Logger`, `LoggerModule`, and `createLogger`. **Start here for Nest apps.** |
+| [`@innei/pretty-logger-core`](packages/core/README.md) | Framework-agnostic logger and reporters; powers the Nest package. |
+| [`demo`](demo/README.md) | Example Nest app using the workspace packages. |
 
-## Installation
+> [!TIP]
+> On npm, install **`@innei/pretty-logger-nestjs`** for NestJS. Use **`@innei/pretty-logger-core`** only if you need the logger outside Nest.
 
-To install, run the following command:
+## Install (NestJS)
 
 ```bash
-npm i @innei/pretty-logger-nestjs
+pnpm add @innei/pretty-logger-nestjs
+# or: npm i @innei/pretty-logger-nestjs
 ```
 
-## Usage
+Requires `@nestjs/common` >= 10 (peer dependency).
 
-### Basic Setup
+## Usage (NestJS)
 
-In your `main.ts`:
+**`app.module.ts`**
 
 ```typescript
-// main.ts
+import { LoggerModule } from '@innei/pretty-logger-nestjs'
+import { Module } from '@nestjs/common'
+
+@Module({
+  imports: [LoggerModule],
+})
+export class AppModule {}
+```
+
+**`main.ts`**
+
+```typescript
 import { Logger } from '@innei/pretty-logger-nestjs'
-
 import { NestFactory } from '@nestjs/core'
-
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -43,35 +56,12 @@ async function bootstrap() {
 bootstrap()
 ```
 
-In your `app.module.ts`:
+### Custom logger: files, wrap-all, hooks
 
 ```typescript
-// app.module.ts
-import { LoggerModule } from '@innei/pretty-logger-nestjs'
-
-import { Module } from '@nestjs/common'
-
-import { AppController, AppService } from './app.controller'
-
-@Module({
-  imports: [LoggerModule],
-  controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
-```
-
-### Custom Logger Configuration
-
-Configure and utilize advanced features:
-
-```typescript
-// Custom Logger Setup
-import path from 'path'
+import path from 'node:path'
 import { createLogger, Logger } from '@innei/pretty-logger-nestjs'
-
 import { NestFactory } from '@nestjs/core'
-
 import { AppModule } from './app.module'
 
 const customLogger = createLogger({
@@ -80,23 +70,10 @@ const customLogger = createLogger({
   },
 })
 
-// Wrap all console and stdout.write with customLogger
 customLogger.wrapAll()
-
-// Implement onData hook for real-time logging or custom actions
-customLogger.onData((data) => {
-  // Your custom implementation here
-})
-
-// Only error log
-customLogger.onStdErr((data) => {
-  // Your custom implementation here
-})
-
-// Only non-error log
-customLogger.onStdOut((data) => {
-  // Your custom implementation here
-})
+customLogger.onData((data) => {})
+customLogger.onStdErr((data) => {})
+customLogger.onStdOut((data) => {})
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -107,29 +84,31 @@ async function bootstrap() {
 bootstrap()
 ```
 
-**Note**: After invoking `wrapAll()`, avoid using `console.log` or similar stdout functions within `onData()` to prevent potential infinite loops.
+> [!WARNING]
+> After `wrapAll()`, avoid using `console.log` (or other wrapped stdio) inside `onData` to prevent feedback loops.
 
-## Configuration Options
+### File options (`writeToFile`)
 
-The `createLogger` method includes the `FileReporterConfig` interface for file redirection:
+When using `createLogger({ writeToFile: { ... } })`:
 
-```typescript
-interface FileReporterConfig {
-  loggerDir: string // Required: Log file directory
-  stdoutFileFormat?: string // Optional: Default 'stdout_%d%.log'
-  stderrFileFormat?: string // Optional: Default 'error.log'
-  cron?: string // Optional: Default '0 0 * * *' for daily log rotation
-}
+| Field | Purpose |
+| --- | --- |
+| `loggerDir` | **Required.** Directory for log files. |
+| `stdoutFileFormat` | Optional. Default `stdout_%d.log` (`%d` = date segment). |
+| `stderrFileFormat` | Optional. Default `error.log`. |
+| `cron` | Optional cron expression to refresh write streams. Default `0 0 * * *`. |
+| `errWriteToStdout` | Optional. Whether error logs also go to stdout stream. Default `false`. |
+
+## Develop in this repo
+
+```bash
+pnpm install
+pnpm build
+pnpm test
 ```
 
-This configuration is crucial for directing `stdout` to log files, with `loggerDir` being mandatory for specifying the log directory. The other parameters are optional, offering defaults for file formats and log rotation, which can be changed through the `cron` setting.
+Run the sample app: `pnpm --filter demo dev` — see [`demo/README.md`](demo/README.md).
 
-## Contributions
+---
 
-Contributions to "NestJS Pretty Logger" are highly appreciated. Whether it's through pull requests or issue discussions, your feedback and contributions are valuable to the project.
-
-## License
-
-2024 © Innei, MIT License.
-
-> [Personal Site](https://innei.in/) · GitHub [@Innei](https://github.com/innei/)
+[Personal site](https://innei.in/) · GitHub [@Innei](https://github.com/innei/)

@@ -1,0 +1,89 @@
+# @innei/pretty-logger-nestjs
+
+[![npm version](https://img.shields.io/npm/v/@innei/pretty-logger-nestjs.svg)](https://www.npmjs.com/package/@innei/pretty-logger-nestjs)
+
+Drop-in NestJS `Logger` that prints through [`@innei/pretty-logger-core`](../core/README.md): readable, colorized lines; optional file logging; and hooks for live log streaming.
+
+**Peer dependency:** `@nestjs/common` >= 10.
+
+## Installation
+
+```bash
+pnpm add @innei/pretty-logger-nestjs @nestjs/common
+# or: npm i @innei/pretty-logger-nestjs @nestjs/common
+```
+
+## Register the module and app logger
+
+**`app.module.ts`**
+
+```typescript
+import { LoggerModule } from '@innei/pretty-logger-nestjs'
+import { Module } from '@nestjs/common'
+
+@Module({
+  imports: [LoggerModule],
+})
+export class AppModule {}
+```
+
+**`main.ts`**
+
+```typescript
+import { Logger } from '@innei/pretty-logger-nestjs'
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule)
+  app.useLogger(app.get(Logger))
+  await app.listen(3000)
+}
+bootstrap()
+```
+
+## Custom logger instance (files, wrapAll, hooks)
+
+Use `createLogger` (alias for `createLoggerConsola` from core), optionally call `Logger.setLoggerInstance` before `app.useLogger`:
+
+```typescript
+import path from 'node:path'
+import { createLogger, Logger } from '@innei/pretty-logger-nestjs'
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
+
+const customLogger = createLogger({
+  writeToFile: {
+    loggerDir: path.resolve('./logs'),
+  },
+})
+
+customLogger.wrapAll()
+
+customLogger.onData((line) => {
+  // e.g. WebSocket broadcast — avoid console.log here if wrapAll() is enabled
+})
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule)
+  Logger.setLoggerInstance(customLogger)
+  app.useLogger(app.get(Logger))
+  await app.listen(3000)
+}
+bootstrap()
+```
+
+## Re-exports
+
+- `createLogger` — same as `createLoggerConsola` from core.
+- `Core` — namespace re-export of `@innei/pretty-logger-core` (`import * as Core from '@innei/pretty-logger-nestjs'` then `Core.createLoggerConsola`, etc.).
+- Types: `LoggerConsolaOptions`, `WrappedConsola`.
+
+## File reporter options
+
+See [`FileReporterConfig` in the core package](../core/README.md#create-a-logger-with-file-output): `loggerDir` (required when using `writeToFile`), optional filename patterns, `cron` for rotating streams, and `errWriteToStdout`.
+
+## See also
+
+- [`@innei/pretty-logger-core`](../core/README.md) — standalone usage and reporter details
+- [Repository root](../../readme.md) — developing this monorepo
