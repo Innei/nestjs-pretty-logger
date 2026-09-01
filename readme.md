@@ -25,7 +25,7 @@ pnpm add @innei/pretty-logger-nestjs
 # or: npm i @innei/pretty-logger-nestjs
 ```
 
-Requires `@nestjs/common` >= 10 (peer dependency).
+Requires `@nestjs/common` ^12 (NestJS 12 only).
 
 ## Usage (NestJS)
 
@@ -83,6 +83,8 @@ async function bootstrap() {
 }
 bootstrap()
 ```
+
+Structured params (Nest 12 default): `logger.log('User created', { userId: 1 })` attaches the object as metadata of that entry. Set `structuredParams: false` on the logger options to keep objects as extra message arguments. `logLevels` are honored. This package is the pretty TTY/file path — it does not implement Nest `json` / `flattenParams`.
 
 > [!WARNING]
 > After `wrapAll()`, avoid using `console.log` (or other wrapped stdio) inside `onData` to prevent feedback loops.
