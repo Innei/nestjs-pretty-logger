@@ -25,7 +25,7 @@ pnpm add @innei/pretty-logger-nestjs
 # or: npm i @innei/pretty-logger-nestjs
 ```
 
-Requires `@nestjs/common` >= 10 (peer dependency).
+Requires `@nestjs/common` ^12 (NestJS 12 only).
 
 ## Usage (NestJS)
 
@@ -83,6 +83,8 @@ async function bootstrap() {
 }
 bootstrap()
 ```
+
+Print behavior matches 0.4.2. This package is the pretty TTY/file path — it does not implement Nest `json` / `flattenParams`.
 
 > [!WARNING]
 > After `wrapAll()`, avoid using `console.log` (or other wrapped stdio) inside `onData` to prevent feedback loops.

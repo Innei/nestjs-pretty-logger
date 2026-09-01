@@ -1,6 +1,6 @@
 {
   "name": "@innei/pretty-logger-nestjs",
-  "version": "0.4.2",
+  "version": "1.0.0",
   "exports": {
     ".": {
       "require": "./dist/index.js",
@@ -14,7 +14,7 @@
     "build": "tsdown"
   },
   "peerDependencies": {
-    "@nestjs/common": ">=10"
+    "@nestjs/common": "^12"
   },
   "dependencies": {
     "@innei/pretty-logger-core": "workspace:*",
@@ -24,6 +24,10 @@
     "std-env": "^3.5.0"
   },
   "devDependencies": {
+    "@nestjs/common": "^12",
     "@oxc-project/runtime": "^0.70.0"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

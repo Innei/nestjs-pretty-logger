@@ -1,5 +1,19 @@
 # CHANGELOG
 
+# [1.0.0](https://github.com/Innei/nestjs-pretty-logger/compare/v0.4.2...v1.0.0) (2026-09-01)
+
+
+### Features
+
+* **@innei/pretty-logger-nestjs:** NestJS 12 peer (`@nestjs/common` ^12). Print behavior stays on the 0.4.2 path: PascalCase trailing context, objects as extra message args, unfiltered `debug` / `verbose`.
+
+
+### Breaking Changes
+
+* **@innei/pretty-logger-nestjs:** peer `@nestjs/common` is `^12` (Nest 10 / 11 dropped).
+
+
+
 ## [0.4.2](https://github.com/Innei/nestjs-pretty-logger/compare/v0.4.1...v0.4.2) (2026-01-28)
 
 
@@ -84,6 +98,3 @@
 * add reporters ([fb27694](https://github.com/Innei/nestjs-pretty-logger/commit/fb27694d810b9c8ed37e270a02e5454b5bfdd7ff))
 * consola package ([4ca3acd](https://github.com/Innei/nestjs-pretty-logger/commit/4ca3acd3876aae1018c8fc0988bcf5b7da7bb130))
 * init ([1a4626a](https://github.com/Innei/nestjs-pretty-logger/commit/1a4626ae9486088040970d57b72c5d15bd9660ed))
-
-
-

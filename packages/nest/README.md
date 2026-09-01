@@ -4,7 +4,11 @@
 
 Drop-in NestJS `Logger` that prints through [`@innei/pretty-logger-core`](../core/README.md): readable, colorized lines; optional file logging; and hooks for live log streaming.
 
-**Peer dependency:** `@nestjs/common` >= 10.
+This is the pretty TTY / file path. It does **not** implement Nest `ConsoleLogger` `json` or `flattenParams` modes — use Nest's built-in JSON logger if you need machine-readable JSON.
+
+**Peer dependency:** `@nestjs/common` ^12 (NestJS 12 only).
+
+Print behavior matches 0.4.2: trailing PascalCase strings are Nest context, extra objects stay as message args, and `debug` / `verbose` always print.
 
 ## Installation
 
@@ -32,6 +36,7 @@ export class AppModule {}
 ```typescript
 import { Logger } from '@innei/pretty-logger-nestjs'
 import { NestFactory } from '@nestjs/core'
+
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -48,8 +53,10 @@ Use `createLogger` (alias for `createLoggerConsola` from core), optionally call 
 
 ```typescript
 import path from 'node:path'
+
 import { createLogger, Logger } from '@innei/pretty-logger-nestjs'
 import { NestFactory } from '@nestjs/core'
+
 import { AppModule } from './app.module'
 
 const customLogger = createLogger({

@@ -2,3 +2,8 @@ packages:
   - packages/*
   - demo
 strictPeerDependencies: false
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+  unrs-resolver: true
+  '@nestjs/core': false
