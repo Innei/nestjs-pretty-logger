@@ -5,15 +5,12 @@
 
 ### Features
 
-* **@innei/pretty-logger-nestjs:** NestJS 12 structured logging via ConsoleLogger splitters (`getContextAndMessagesToPrint` / `getContextAndStackAndMessagesToPrint`). Extra plain objects merge into one params object passed as a consola argument. `logLevels` now apply through `isLevelEnabled`.
+* **@innei/pretty-logger-nestjs:** NestJS 12 peer (`@nestjs/common` ^12). Print behavior stays on the 0.4.2 path: PascalCase trailing context, objects as extra message args, unfiltered `debug` / `verbose`.
 
 
 ### Breaking Changes
 
 * **@innei/pretty-logger-nestjs:** peer `@nestjs/common` is `^12` (Nest 10 / 11 dropped).
-* Context is any trailing string, not only PascalCase identifiers.
-* Extra plain objects merge into one params object instead of remaining separate message args.
-* `logLevels` are honored, so previously-unfiltered `debug` / `verbose` may disappear.
 
 
 

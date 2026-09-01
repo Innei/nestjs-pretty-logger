@@ -8,12 +8,7 @@ This is the pretty TTY / file path. It does **not** implement Nest `ConsoleLogge
 
 **Peer dependency:** `@nestjs/common` ^12 (NestJS 12 only).
 
-## Breaking changes in 1.0.0
-
-- **Nest 10 / 11 dropped.** Peer is `@nestjs/common` ^12.
-- **Context is any trailing string**, not only PascalCase class names. `logger.log('msg', 'my-context')` now uses `my-context` as the Nest context.
-- **Extra plain objects merge into one params object** and are passed as a single extra consola argument (not a new core `LogObject` field).
-- **`logLevels` are honored.** Previously `debug` / `verbose` always printed; they now follow `isLevelEnabled` (Nest's default levels still include them).
+Print behavior matches 0.4.2: trailing PascalCase strings are Nest context, extra objects stay as message args, and `debug` / `verbose` always print.
 
 ## Installation
 
@@ -50,39 +45,6 @@ async function bootstrap() {
   await app.listen(3000)
 }
 bootstrap()
-```
-
-## Structured params (Nest 12)
-
-Plain objects after the message are treated as structured metadata of the same log entry (Nest's default; `structuredParams` is on unless you set it to `false`):
-
-```typescript
-const logger = new Logger('UserService')
-logger.log('User created', { userId: 1 })
-// context: UserService, params: { userId: 1 } — one consola call
-```
-
-Multiple objects are merged:
-
-```typescript
-logger.log('User created', { userId: 1 }, { email: 'a@b.com' })
-// params: { userId: 1, email: 'a@b.com' }
-```
-
-Opt out with Nest's escape hatch so objects stay as extra message arguments:
-
-```typescript
-const logger = new Logger('UserService', { structuredParams: false })
-logger.log('User created', { userId: 1 })
-```
-
-`logLevels` now actually apply:
-
-```typescript
-const logger = new Logger('UserService', {
-  logLevels: ['error', 'fatal', 'warn'],
-})
-logger.debug('skipped')
 ```
 
 ## Custom logger instance (files, wrapAll, hooks)

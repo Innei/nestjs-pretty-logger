@@ -6,18 +6,15 @@ import type { ConsoleLoggerOptions } from '@nestjs/common'
 import { createLoggerConsola } from '@innei/pretty-logger-core'
 import { ConsoleLogger } from '@nestjs/common'
 
-type ConsolaPrintLevel =
+type LogLevel =
   | 'info'
+  | 'log'
   | 'error'
   | 'warn'
   | 'debug'
   | 'verbose'
   | 'fatal'
 
-/**
- * Pretty TTY/file Nest logger. Does not implement ConsoleLogger `json` /
- * `flattenParams` modes — use Nest's built-in JSON logger for that path.
- */
 export class Logger extends ConsoleLogger {
   private static loggerInstance = createLoggerConsola()
 
@@ -51,80 +48,66 @@ export class Logger extends ConsoleLogger {
       : ''
   }
 
-  private flush(
-    level: ConsolaPrintLevel,
-    messages: unknown[],
-    context?: string,
-    params?: Record<string, unknown>,
-    stack?: unknown,
-  ) {
+  /**
+   * Check if the last argument looks like a NestJS context string.
+   * NestJS passes context as the last string argument (e.g., 'AppService', 'UserController').
+   * Context strings are typically PascalCase class names.
+   */
+  private isContextString(value: unknown): value is string {
+    if (typeof value !== 'string') return false
+    // Context is usually a short PascalCase identifier (class name)
+    // Not a sentence, not a path, not containing spaces or special chars
+    return /^[A-Z][a-zA-Z0-9]*$/.test(value)
+  }
+
+  private print(level: LogLevel, ...args: any[]) {
     const print = Logger.loggerInstance[level] as (...args: any[]) => void
     const diff = this._updateAndGetTimestampDiff()
+
+    let context: string | undefined
+    let messages = args
+
+    // Check if the last argument is a context string (NestJS convention)
+    if (args.length > 0 && this.isContextString(args.at(-1))) {
+      context = args.at(-1)
+      messages = args.slice(0, -1)
+    }
+
     const prefix = this.workerPrefix
       ? `${this.workerPrefix} ${this.getContextPrefix(context)}`
       : this.getContextPrefix(context)
 
-    const output = [prefix, ...messages, params, stack, diff].filter(
+    const output = [prefix, ...messages, diff].filter(
       (v) => v !== undefined && v !== '',
     )
     print(...output)
   }
 
   log(...args: any[]) {
-    if (!this.isLevelEnabled('log')) {
-      return
-    }
-    const { messages, context, params } =
-      this.getContextAndMessagesToPrint(args)
-    this.flush('info', messages, context, params)
+    this.print('info', ...args)
   }
 
   info(...args: any[]) {
-    this.log(...args)
+    this.print('info', ...args)
   }
 
   warn(...args: any[]) {
-    if (!this.isLevelEnabled('warn')) {
-      return
-    }
-    const { messages, context, params } =
-      this.getContextAndMessagesToPrint(args)
-    this.flush('warn', messages, context, params)
+    this.print('warn', ...args)
   }
 
   debug(...args: any[]) {
-    if (!this.isLevelEnabled('debug')) {
-      return
-    }
-    const { messages, context, params } =
-      this.getContextAndMessagesToPrint(args)
-    this.flush('debug', messages, context, params)
+    this.print('debug', ...args)
   }
 
   verbose(...args: any[]) {
-    if (!this.isLevelEnabled('verbose')) {
-      return
-    }
-    const { messages, context, params } =
-      this.getContextAndMessagesToPrint(args)
-    this.flush('verbose', messages, context, params)
+    this.print('verbose', ...args)
   }
 
   fatal(...args: any[]) {
-    if (!this.isLevelEnabled('fatal')) {
-      return
-    }
-    const { messages, context, params } =
-      this.getContextAndMessagesToPrint(args)
-    this.flush('fatal', messages, context, params)
+    this.print('fatal', ...args)
   }
 
   error(...args: any[]) {
-    if (!this.isLevelEnabled('error')) {
-      return
-    }
-    const { messages, context, stack, params } =
-      this.getContextAndStackAndMessagesToPrint(args)
-    this.flush('error', messages, context, params, stack)
+    this.print('error', ...args)
   }
 }

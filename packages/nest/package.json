@@ -26,5 +26,8 @@
   "devDependencies": {
     "@nestjs/common": "^12",
     "@oxc-project/runtime": "^0.70.0"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
